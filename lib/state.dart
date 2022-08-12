@@ -1,19 +1,23 @@
+import 'package:equatable/equatable.dart';
 import 'package:tic_tac_toe/player.dart';
 
-abstract class State {
+abstract class State extends Equatable {
   const State();
 
   State copy();
+
+  @override
+  List<Object> get props => [];
 }
 
 class Running extends State {
   const Running();
 
   @override
-  String toString() => "Running {}";
+  State copy() => Running();
 
   @override
-  State copy() => Running();
+  String toString() => "Running {}";
 }
 
 class GameOver extends State {
@@ -22,8 +26,11 @@ class GameOver extends State {
   final Player player;
 
   @override
-  String toString() => "GameOver { player: $player }";
+  State copy() => GameOver(player);
 
   @override
-  State copy() => GameOver(player);
+  List<Object> get props => [player];
+
+  @override
+  String toString() => "GameOver { player: $player }";
 }

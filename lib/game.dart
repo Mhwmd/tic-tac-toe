@@ -1,6 +1,8 @@
+import 'package:equatable/equatable.dart';
+
 import 'tic_tac_toe.dart';
 
-class Game {
+class Game extends Equatable {
   final Board board;
   final State state;
   final Player turn;
@@ -27,4 +29,7 @@ class Game {
 
   @override
   String toString() => "Game { board: $board, state: $state, turn: $turn }";
+
+  @override
+  List<Object> get props => [board, state, turn];
 }
