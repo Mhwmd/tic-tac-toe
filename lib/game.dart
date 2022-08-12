@@ -21,7 +21,7 @@ class Game extends Equatable {
 
   Game copyWith({Board? board, Player? turn, State? state}) {
     return Game(
-      board: board ?? this.board,
+      board: board ?? copyBoard(this.board),
       state: state ?? this.state.copy(),
       turn: turn ?? this.turn,
     );
@@ -33,3 +33,7 @@ class Game extends Equatable {
   @override
   List<Object> get props => [board, state, turn];
 }
+
+Board copyBoard(Board board) => board.map(BoardRow.from).toList();
+
+Board transposeBoard(Board board) => zip(board).toList();
