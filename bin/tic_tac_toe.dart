@@ -3,16 +3,16 @@ import 'dart:io';
 
 import 'package:tic_tac_toe/tic_tac_toe.dart';
 
-const validInput = r"^(\d+) +(\d+)+$";
+const validInputRegex = r"^(\d+) +(\d+)+$";
 
-bool checkValidInput(String? input) {
+bool validateInput(String? input) {
   if (input == null) return false;
-  return RegExp(validInput).hasMatch(input);
+  return RegExp(validInputRegex).hasMatch(input);
 }
 
 Position parseInput(String input) {
-  RegExp regExp = RegExp(validInput);
-  RegExpMatch match = regExp.firstMatch(input)!;
+  RegExp validator = RegExp(validInputRegex);
+  RegExpMatch match = validator.firstMatch(input)!;
   int x = int.parse(match.group(1)!);
   int y = int.parse(match.group(2)!);
   return Position(x, y);
@@ -74,7 +74,7 @@ void takeInput(Game game, void Function(Position position) gameCallBack) {
   print("${playerToString(game.turn)}'s turn\n");
   String? text = stdin.readLineSync(encoding: utf8);
 
-  if (!checkValidInput(text)) {
+  if (!validateInput(text)) {
     print("Not valid input, please try again\n");
     takeInput(game, gameCallBack);
   }
