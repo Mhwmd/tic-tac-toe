@@ -44,6 +44,7 @@ void main() {
       expect(gameObject1, isNot(gameObject2));
     });
   });
+
   test("Copy board", () {
     Board board = [
       [Player.none, Player.none, Player.none],
@@ -58,5 +59,50 @@ void main() {
     newBoard[0][1] = Player.first;
 
     expect(board, isNot(newBoard));
+  });
+
+  test("Transpose board (swap rows with columns)", () {
+    Board board3x3 = [
+      [Player.none, Player.first, Player.none],
+      [Player.none, Player.first, Player.second],
+      [Player.second, Player.none, Player.none]
+    ];
+
+    expect(transposeBoard(board3x3), [
+      [Player.none, Player.none, Player.second],
+      [Player.first, Player.first, Player.none],
+      [Player.none, Player.second, Player.none]
+    ]);
+
+    Board board2x2 = [
+      [Player.none, Player.second],
+      [Player.second, Player.first],
+    ];
+
+    expect(transposeBoard(board2x2), board2x2);
+
+    Board board2x3 = [
+      [Player.none, Player.none, Player.first],
+      [Player.second, Player.second, Player.first],
+    ];
+
+    expect(transposeBoard(board2x3), [
+      [Player.none, Player.second],
+      [Player.none, Player.second],
+      [Player.first, Player.first],
+    ]);
+
+    Board board3x2 = [
+      [Player.none, Player.first],
+      [Player.second, Player.none],
+      [Player.first, Player.second],
+    ];
+
+    expect(transposeBoard(board3x2), [
+      [Player.none, Player.second, Player.first],
+      [Player.first, Player.none, Player.second],
+    ]);
+
+    expect(transposeBoard(transposeBoard(board3x2)), board3x2);
   });
 }
