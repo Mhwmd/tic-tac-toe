@@ -392,4 +392,40 @@ void main() {
 
     expect(game.board[0][1], game.turn.opponent);
   });
+
+  group("Check game state", () {
+    test("Check GameOver", () {
+      Game game = Game.initialGame;
+      game = changeTurn(checkGameOver(runMove(game, Position(0, 0))));
+      game = changeTurn(checkGameOver(runMove(game, Position(1, 1))));
+      expect(game.state, TypeMatcher<Running>());
+      game = changeTurn(checkGameOver(runMove(game, Position(2, 0))));
+      game = changeTurn(checkGameOver(runMove(game, Position(1, 0))));
+      expect(game.state, TypeMatcher<Running>());
+      game = changeTurn(checkGameOver(runMove(game, Position(2, 2))));
+      game = changeTurn(checkGameOver(runMove(game, Position(1, 2))));
+
+      expect(
+        game.state,
+        TypeMatcher<GameOver>().having((p0) => p0.player, "winner player", Game.initialGame.turn.opponent),
+      );
+    });
+
+    test("Check Draw", () {
+      Game game = Game.initialGame;
+      game = changeTurn(checkGameOver(runMove(game, Position(0, 0))));
+      game = changeTurn(checkGameOver(runMove(game, Position(1, 1))));
+      game = changeTurn(checkGameOver(runMove(game, Position(2, 0))));
+      game = changeTurn(checkGameOver(runMove(game, Position(1, 0))));
+      game = changeTurn(checkGameOver(runMove(game, Position(1, 2))));
+      game = changeTurn(checkGameOver(runMove(game, Position(0, 1))));
+      game = changeTurn(checkGameOver(runMove(game, Position(2, 1))));
+      game = changeTurn(checkGameOver(runMove(game, Position(2, 2))));
+      game = changeTurn(checkGameOver(runMove(game, Position(0, 2))));
+      expect(
+        game.state,
+        TypeMatcher<GameOver>().having((p0) => p0.player, "draw", Player.none),
+      );
+    });
+  });
 }
