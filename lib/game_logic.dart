@@ -45,3 +45,17 @@ BoardRow getDiagonal(Board board, Player Function(BoardRow row, int i) operation
     return previousValue;
   });
 }
+
+bool checkRowForWin(BoardRow row, Player player) => row.every((val) => val == player);
+
+bool checkRowsForWin(Board board, Player player) => board.any((row) => checkRowForWin(row, player));
+
+bool checkWinDiagonalSides(Board board, Player player) {
+  return checkRowForWin(getLeftDiagonal(board), player) || checkRowForWin(getRightDiagonal(board), player);
+}
+
+bool checkWin(Board board, Player player) {
+  return checkRowsForWin(board, player) ||
+      checkRowsForWin(transposeBoard(board), player) ||
+      checkWinDiagonalSides(board, player);
+}

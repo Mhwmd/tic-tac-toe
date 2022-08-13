@@ -255,4 +255,56 @@ void main() {
       expect(getRightDiagonal(board5x5), [Player.none, Player.none, Player.first, Player.none, Player.none]);
     });
   });
+
+  group("Check wins", () {
+    Board board3x3 = [
+      [Player.second, Player.none, Player.none],
+      [Player.none, Player.second, Player.none],
+      [Player.first, Player.first, Player.first],
+    ];
+    test("Check row for win by player", () {
+      expect(checkRowForWin(board3x3[2], Player.first), isTrue);
+      expect(checkRowForWin(board3x3[2], Player.second), isFalse);
+      expect(checkRowForWin(board3x3[0], Player.second), isFalse);
+      expect(checkRowForWin(board3x3[0], Player.first), isFalse);
+    });
+
+    test("check player has win in any rows", () {
+      expect(checkRowsForWin(board3x3, Player.first), isTrue);
+      expect(checkRowsForWin(board3x3, Player.second), isFalse);
+    });
+
+    test("check player has win in any columns", () {
+      expect(checkRowsForWin(transposeBoard(board3x3), Player.first), isFalse);
+      expect(checkRowsForWin(transposeBoard(board3x3), Player.second), isFalse);
+    });
+
+    group("Check player wins in diagonal sides", () {
+      Board board3x3 = [
+        [Player.first, Player.none, Player.second],
+        [Player.none, Player.second, Player.none],
+        [Player.second, Player.first, Player.first],
+      ];
+
+      test("Left diagonal wins", () {
+        expect(checkRowForWin(getLeftDiagonal(board3x3), Player.first), isFalse);
+        expect(checkRowForWin(getLeftDiagonal(board3x3), Player.second), isFalse);
+      });
+
+      test("Right diagonal wins", () {
+        expect(checkRowForWin(getRightDiagonal(board3x3), Player.first), isFalse);
+        expect(checkRowForWin(getRightDiagonal(board3x3), Player.second), isTrue);
+      });
+
+      test("Check player wins in any diagonal sides", () {
+        expect(checkWinDiagonalSides(board3x3, Player.first), isFalse);
+        expect(checkWinDiagonalSides(board3x3, Player.second), isTrue);
+      });
+    });
+
+    test("Check player wins in any rows, columns and diagonal sides", () {
+      expect(checkWin(board3x3, Player.first), isTrue);
+      expect(checkWin(board3x3, Player.second), isFalse);
+    });
+  });
 }
