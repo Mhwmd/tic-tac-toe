@@ -105,4 +105,52 @@ void main() {
 
     expect(transposeBoard(transposeBoard(board3x2)), board3x2);
   });
+
+  group("Occupy board cell to player on the specific position", () {
+    test("Opponent player", () {
+      Player firstPlayer = Player.first;
+      Player secondPlayer = firstPlayer.opponent;
+
+      expect(secondPlayer, Player.second);
+      expect(secondPlayer.opponent, Player.first);
+      expect(Player.none, Player.none);
+    });
+
+    test("Occupy position", () {
+      Board board = Game.initialGame.board;
+      Board newBoard = occupyPosition(board, Position(0, 1), Player.first);
+
+      // check no side effects
+      expect(board, Game.initialGame.board);
+
+      //check new board has changed
+      expect(newBoard, isNot(board));
+
+      expect(newBoard[0][1], Player.first);
+    });
+
+    test("Occupy position according to player turn", () {
+      Game initialGame = Game.initialGame;
+
+      // occupy position [0][1] with player who start first and change turn to opponent player.
+      Game game = initialGame.copyWith(board: genMove(initialGame, Position(0, 1)), turn: initialGame.turn.opponent);
+
+      //check board has changed.
+      expect(initialGame.board, isNot(game.board));
+
+      //check position has changed
+      expect(initialGame.board[0][1], isNot(game.board[0][1]));
+
+      //check position [0][1] has changed to player turn.
+      expect(initialGame.turn, game.board[0][1]);
+
+      game = game.copyWith(board: genMove(game, Position(1, 1)));
+
+      //check position [0][1] has changed to player turn.
+      expect(initialGame.turn, game.board[0][1]);
+
+      //check position [1][1] has changed to opponent player.
+      expect(initialGame.turn.opponent, game.board[1][1]);
+    });
+  });
 }
