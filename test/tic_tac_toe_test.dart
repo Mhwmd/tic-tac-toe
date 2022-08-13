@@ -307,4 +307,47 @@ void main() {
       expect(checkWin(board3x3, Player.second), isFalse);
     });
   });
+
+  group("Check unoccupied", () {
+    test("Check row has any unoccupied", () {
+      expect(checkRowForUnoccupied([Player.first, Player.second, Player.none]), isTrue);
+      expect(checkRowForUnoccupied([Player.first, Player.second, Player.first]), isFalse);
+      expect(checkRowForUnoccupied([]), isFalse);
+    });
+    test("Check board for any unoccupied", () {
+      expect(
+        checkBoardForUnoccupied([
+          [Player.first, Player.second, Player.none],
+          [Player.first, Player.second, Player.first]
+        ]),
+        isTrue,
+      );
+
+      expect(
+        checkBoardForUnoccupied([
+          [Player.first, Player.second, Player.first],
+          [Player.first, Player.second, Player.first]
+        ]),
+        isFalse,
+      );
+    });
+  });
+  test("Check draw (tie)", () {
+    expect(
+      checkDraw([
+        [Player.first, Player.first, Player.second],
+        [Player.second, Player.second, Player.first],
+        [Player.first, Player.first, Player.second]
+      ]),
+      isTrue,
+    );
+    expect(
+      checkDraw([
+        [Player.first, Player.none, Player.second],
+        [Player.none, Player.second, Player.first],
+        [Player.first, Player.first, Player.second]
+      ]),
+      isFalse,
+    );
+  });
 }

@@ -46,6 +46,12 @@ BoardRow getDiagonal(Board board, Player Function(BoardRow row, int i) operation
   });
 }
 
+bool checkRowForUnoccupied(BoardRow row) => row.any((val) => val == Player.none);
+
+bool checkBoardForUnoccupied(Board board) => board.any(checkRowForUnoccupied);
+
+bool checkDraw(Board board) => !checkBoardForUnoccupied(board);
+
 bool checkRowForWin(BoardRow row, Player player) => row.every((val) => val == player);
 
 bool checkRowsForWin(Board board, Player player) => board.any((row) => checkRowForWin(row, player));
