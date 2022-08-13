@@ -116,6 +116,28 @@ void main() {
       expect(Player.none, Player.none);
     });
 
+    test("Check position occupied", () {
+      Board board = [
+        [Player.none, Player.none, Player.second],
+        [Player.first, Player.first, Player.none],
+        [Player.none, Player.second, Player.none]
+      ];
+      List<Position> nonePlayer = [Position(0, 0), Position(0, 1), Position(1, 2)];
+      List<Position> firstPlayer = [Position(1, 0), Position(1, 1)];
+      List<Position> secondPlayer = [Position(0, 2), Position(2, 1)];
+
+      expect(nonePlayer.any((position) => positionOccupied(board, position, Player.first)), false);
+      expect(nonePlayer.any((position) => occupiedByFirstPlayer(board, position)), false);
+
+      expect(nonePlayer.every((position) => positionOccupied(board, position, Player.none)), true);
+      expect(firstPlayer.every((position) => positionOccupied(board, position, Player.first)), true);
+      expect(secondPlayer.every((position) => positionOccupied(board, position, Player.second)), true);
+
+      expect(nonePlayer.every((position) => positionUnoccupied(board, position)), true);
+      expect(firstPlayer.every((position) => occupiedByFirstPlayer(board, position)), true);
+      expect(secondPlayer.every((position) => occupiedBySecondPlayer(board, position)), true);
+    });
+
     test("Occupy position", () {
       Board board = Game.initialGame.board;
       Board newBoard = occupyPosition(board, Position(0, 1), Player.first);
