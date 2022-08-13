@@ -332,6 +332,7 @@ void main() {
       );
     });
   });
+
   test("Check draw (tie)", () {
     expect(
       checkDraw([
@@ -349,5 +350,33 @@ void main() {
       ]),
       isFalse,
     );
+  });
+
+  group("Game change state and turns", () {
+    Game game = Game.initialGame;
+
+    test("Flip players turn", () {
+      Game nextGame = changeTurn(game);
+
+      expect(nextGame.turn, game.turn.opponent);
+      expect(nextGame.board, game.board);
+      expect(nextGame.state, game.state);
+    });
+
+    test("Running state", () {
+      State state = handleRunning(game.copyWith(state: GameOver(Player.first))).state;
+      expect(state, TypeMatcher<Running>());
+    });
+
+    group("GameOver state", () {
+      test("GameOver by player win", () {
+        State state = handleWin(game).state;
+        expect(state, TypeMatcher<GameOver>().having((p0) => p0.player, "player", game.turn));
+      });
+      test("GameOver by draw (no players win)", () {
+        State state = handleDraw(game).state;
+        expect(state, TypeMatcher<GameOver>().having((p0) => p0.player, "player", Player.none));
+      });
+    });
   });
 }

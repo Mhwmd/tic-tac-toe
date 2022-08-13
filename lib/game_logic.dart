@@ -65,3 +65,11 @@ bool checkWin(Board board, Player player) {
       checkRowsForWin(transposeBoard(board), player) ||
       checkWinDiagonalSides(board, player);
 }
+
+Game changeTurn(Game game) => game.copyWith(turn: game.turn.opponent);
+
+Game handleWin(Game game) => game.copyWith(state: GameOver(game.turn));
+
+Game handleDraw(Game game) => game.copyWith(state: const GameOver(Player.none));
+
+Game handleRunning(Game game) => game.copyWith(state: const Running());
