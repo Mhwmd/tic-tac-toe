@@ -61,6 +61,43 @@ void main() {
     expect(board, isNot(newBoard));
   });
 
+  test("Get positions on board", () {
+    Board board = [
+      [Player.none, Player.none, Player.none],
+      [Player.none, Player.none, Player.none],
+      [Player.none, Player.none, Player.none]
+    ];
+
+    expect(getBoardPositions(board), [
+      Position(0, 0),
+      Position(0, 1),
+      Position(0, 2),
+      Position(1, 0),
+      Position(1, 1),
+      Position(1, 2),
+      Position(2, 0),
+      Position(2, 1),
+      Position(2, 2),
+    ]);
+
+    Board board1 = [
+      [Player.none, Player.first],
+      [Player.first],
+      [Player.none, Player.second, Player.first],
+      [Player.second]
+    ];
+
+    expect(getBoardPositions(board1), [
+      Position(0, 0),
+      Position(0, 1),
+      Position(1, 0),
+      Position(2, 0),
+      Position(2, 1),
+      Position(2, 2),
+      Position(3, 0),
+    ]);
+  });
+
   test("Transpose board (swap rows with columns)", () {
     Board board3x3 = [
       [Player.none, Player.first, Player.none],
@@ -122,7 +159,7 @@ void main() {
         [Player.first, Player.first, Player.none],
         [Player.none, Player.second, Player.none]
       ];
-      List<Position> nonePlayer = [Position(0, 0), Position(0, 1), Position(1, 2)];
+      List<Position> nonePlayer = [Position(0, 0), Position(0, 1), Position(1, 2), Position(2, 0), Position(2, 2)];
       List<Position> firstPlayer = [Position(1, 0), Position(1, 1)];
       List<Position> secondPlayer = [Position(0, 2), Position(2, 1)];
 
@@ -136,6 +173,23 @@ void main() {
       expect(nonePlayer.every((position) => positionUnoccupied(board, position)), true);
       expect(firstPlayer.every((position) => occupiedByFirstPlayer(board, position)), true);
       expect(secondPlayer.every((position) => occupiedBySecondPlayer(board, position)), true);
+    });
+
+    test("Get occupied positions according to player", () {
+      Board board = [
+        [Player.none, Player.none, Player.second],
+        [Player.first, Player.first, Player.none],
+        [Player.none, Player.second, Player.none]
+      ];
+
+      List<Position> nonePlayer = [Position(0, 0), Position(0, 1), Position(1, 2), Position(2, 0), Position(2, 2)];
+      List<Position> firstPlayer = [Position(1, 0), Position(1, 1)];
+      List<Position> secondPlayer = [Position(0, 2), Position(2, 1)];
+
+      expect(getOccupiedPositions(board, positionUnoccupied), nonePlayer);
+      expect(getOccupiedPositions(board, occupiedByFirstPlayer), firstPlayer);
+      expect(getOccupiedPositions(board, occupiedBySecondPlayer), secondPlayer);
+      expect(getOccupiedPositions(board, positionUnoccupied), getLegalMoves(board));
     });
 
     test("Occupy position", () {
