@@ -33,3 +33,15 @@ List<Position> getOccupiedPositions(Board board, bool Function(Board board, Posi
 }
 
 List<Position> getLegalMoves(Board board) => getOccupiedPositions(board, positionUnoccupied);
+
+BoardRow getLeftDiagonal(Board board) => getDiagonal(board, (row, i) => row[i]);
+
+BoardRow getRightDiagonal(Board board) => getDiagonal(board, (row, i) => row[board.length - 1 - i]);
+
+BoardRow getDiagonal(Board board, Player Function(BoardRow row, int i) operation) {
+  int i = 0;
+  return board.fold<BoardRow>([], (previousValue, row) {
+    previousValue.add(operation(row, ++i - 1));
+    return previousValue;
+  });
+}

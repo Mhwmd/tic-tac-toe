@@ -229,4 +229,30 @@ void main() {
       expect(initialGame.turn.opponent, game.board[1][1]);
     });
   });
+
+  group("Board diagonals", () {
+    Board board3x3 = [
+      [Player.first, Player.none, Player.none],
+      [Player.none, Player.first, Player.none],
+      [Player.none, Player.none, Player.first],
+    ];
+
+    Board board5x5 = [
+      [Player.first, Player.none, Player.none, Player.none, Player.none],
+      [Player.none, Player.first, Player.none, Player.none, Player.none],
+      [Player.none, Player.none, Player.first, Player.none, Player.none],
+      [Player.none, Player.none, Player.none, Player.first, Player.none],
+      [Player.none, Player.none, Player.none, Player.none, Player.first],
+    ];
+
+    test("Left diagonal", () {
+      expect(getLeftDiagonal(board3x3), [Player.first, Player.first, Player.first]);
+      expect(getLeftDiagonal(board5x5), [Player.first, Player.first, Player.first, Player.first, Player.first]);
+    });
+
+    test("Right diagonal", () {
+      expect(getRightDiagonal(board3x3), [Player.none, Player.first, Player.none]);
+      expect(getRightDiagonal(board5x5), [Player.none, Player.none, Player.first, Player.none, Player.none]);
+    });
+  });
 }
