@@ -68,6 +68,14 @@ bool checkWin(Board board, Player player) {
 
 Game changeTurn(Game game) => game.copyWith(turn: game.turn.opponent);
 
+Game runMove(Game game, Position position) => game.copyWith(board: genMove(game, position));
+
+Game checkGameOver(Game state) {
+  if (checkWin(state.board, state.turn)) return handleWin(state);
+  if (checkDraw(state.board)) return handleDraw(state);
+  return handleRunning(state);
+}
+
 Game handleWin(Game game) => game.copyWith(state: GameOver(game.turn));
 
 Game handleDraw(Game game) => game.copyWith(state: const GameOver(Player.none));

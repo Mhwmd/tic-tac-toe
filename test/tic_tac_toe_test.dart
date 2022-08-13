@@ -379,4 +379,17 @@ void main() {
       });
     });
   });
+
+  test("Occupy player by turn", () {
+    Game game = Game.initialGame;
+    game = runMove(game, Position(0, 1));
+    expect(game.board[0][1], game.turn);
+
+    game = changeTurn(game);
+    game = runMove(game, Position(2, 2));
+
+    expect(game.board[2][2], game.turn);
+
+    expect(game.board[0][1], game.turn.opponent);
+  });
 }
