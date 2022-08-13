@@ -1,2 +1,3 @@
-A sample command-line application with an entrypoint in `bin/`, library code
-in `lib/`, and example unit test in `test/`.
+# Tic Tac Toe Game
+
+`Tic Tac Toe` is console-based functional game with many pure functions in Dart.
