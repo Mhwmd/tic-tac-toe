@@ -33,7 +33,3 @@ class Game extends Equatable {
   @override
   List<Object> get props => [board, state, turn];
 }
-
-Board copyBoard(Board board) => board.map(BoardRow.from).toList();
-
-Board transposeBoard(Board board) => zip(board).toList();
