@@ -22,8 +22,6 @@ Pair<int, Position> minimaxOptimization(
   if (!checkBoardForUnoccupied(board)) return Pair(0, Position(-1, -1));
 
   List<Position> legalMoves = getLegalMoves(board);
-  if (legalMoves.length == 8) return Pair(0, randomChoice(legalMoves));
-
   legalMoves.shuffle();
 
   if (player == Player.first) {
@@ -63,10 +61,10 @@ Game playAsComputer(Game game, Position Function(Board board, Player player) int
 }
 
 Position hardComputerPlayer(Board board, Player player) {
-  return minimaxOptimization(copyBoard(board), Player.first).second;
+  return minimaxOptimization(copyBoard(board), player).second;
 }
 
-Position easyComputerPlayer(Board board) {
+Position easyComputerPlayer(Board board, Player player) {
   return pickRandomMove(board);
 }
 

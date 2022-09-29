@@ -37,9 +37,11 @@ void runGame(Game game) {
     if (game.turn == Player.first) {
       runGame(changeTurn(checkGameOver(playAsComputer(game, hardComputerPlayer))));
     } else {
-      takeInput(game, (position) {
-        runGame(changeTurn(checkGameOver(runMove(game, position))));
-      });
+      runGame(changeTurn(checkGameOver(playAsComputer(game, hardComputerPlayer))));
+
+      // takeInput(game, (position) {
+      //   runGame(changeTurn(checkGameOver(runMove(game, position))));
+      // });
     }
   }
 }
