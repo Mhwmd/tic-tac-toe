@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:tic_tac_toe/ai.dart';
 import 'package:tic_tac_toe/tic_tac_toe.dart';
 
 const validInputRegex = r"^(\d+) +(\d+)+$";
@@ -33,9 +34,13 @@ void runGame(Game game) {
   renderGame(game);
 
   if (game.state is Running) {
-    takeInput(game, (position) {
-      runGame(changeTurn(checkGameOver(runMove(game, position))));
-    });
+    if (game.turn == Player.first) {
+      runGame(changeTurn(checkGameOver(playAsComputer(game, hardComputerPlayer))));
+    } else {
+      takeInput(game, (position) {
+        runGame(changeTurn(checkGameOver(runMove(game, position))));
+      });
+    }
   }
 }
 
