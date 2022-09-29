@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:tic_tac_toe/ai.dart';
+import 'package:tic_tac_toe/computer_player.dart';
 import 'package:tic_tac_toe/tic_tac_toe.dart';
 
 const validInputRegex = r"^(\d+) +(\d+)+$";
